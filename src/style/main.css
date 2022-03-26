@@ -1,0 +1,16 @@
+.page {
+    margin: 1.5rem !important;
+}
+
+.bottom-bar{
+    position: sticky;
+    bottom: 0;
+    left: 0;
+}
+
+.top-bar{
+    position: sticky;
+    z-index: 11;
+    top: 55px;
+    left: 0;
+}
