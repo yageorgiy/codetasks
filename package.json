@@ -15,7 +15,7 @@
     "core-js": "^3.21.1",
     "intersection-observer": "^0.12.0",
     "portal-vue": "^2.1.7",
-    "prismjs": "latest",
+    "prismjs": "^1.27.0",
     "regenerator-runtime": "^0.13.9",
     "sass": "^1.49.9",
     "vue": "^2.6.11",
