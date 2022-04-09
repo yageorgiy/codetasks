@@ -84,30 +84,32 @@
 
     import Vue from 'vue';
     import Input from '@/ts/class/Input';
+    import { Client } from '@/ts/class/api/Client';
 
 
     export default Vue.extend({
         name: "Task",
 
-        data: () => {
-            let _: Input[] = [];
-            return {
-                $t: $t,
-                router: router,
-                categories: Store.state.categories,
-
-                category_name: "?",
-                task_name: "?",
-                description: "",
-
-                language: "c",
-                code: "",
-
-                inputs: _,
-
-                output: ""
-            };
+        props: {
+            client: Client
         },
+
+        data: () => ({
+            $t: $t,
+            router: router,
+            categories: Store.state.categories,
+
+            category_name: "?",
+            task_name: "?",
+            description: "",
+
+            language: "c",
+            code: "",
+
+            inputs: [] as Input[],
+
+            output: ""
+        }),
 
         created() {
             let cat_id:  number = parseInt(router.currentRoute.params.cat_id,  10);
@@ -169,9 +171,9 @@
     }
 
     .input-cards {
-        /*overflow: auto;*/
-        /*width: 600px !important;*/
+        overflow: auto;
     }
+
 
     .input-card {
         min-width: 300px !important;

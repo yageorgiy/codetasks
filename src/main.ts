@@ -30,6 +30,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 // import './style/app.scss'; // Use only if some styles need to be replaced!!!
 import './style/main.css';
 
+import VueScrollTo from 'vue-scrollto';
+
 Vue.config.productionTip = false;
 
 Vue.use(VueI18n);
@@ -37,6 +39,21 @@ Vue.use(PortalVue);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(Router);
+
+// Scroll to default config
+Vue.use(VueScrollTo, {
+    container: "body",
+    duration: 500,
+    easing: "ease",
+    offset: -70,
+    force: true,
+    cancelable: true,
+    onStart: false,
+    onDone: false,
+    onCancel: false,
+    x: false,
+    y: true
+})
 
 // Prism.js Editor
 import { PrismEditor } from 'vue-prism-editor';

@@ -8,17 +8,18 @@
             <p class="mb-0">
                 <b-form @submit="onSubmit" @reset="onReset">
                     <b-form-group
-                            :label="$t('profile.firstName')"
-                            label-for="firstName"
+                            :label="$t('profile.name')"
+                            label-for="name"
                     >
                         <b-form-input
-                                id="firstName"
+                                id="name"
                                 disabled
-                                v-model="form.firstName"
+                                v-model="form.name"
                                 required
                         ></b-form-input>
                     </b-form-group>
 
+                    <!--
                     <b-form-group
                             :label="$t('profile.lastName')"
                             label-for="lastName"
@@ -42,7 +43,7 @@
                                 required
                         ></b-form-input>
                     </b-form-group>
-
+                    -->
                     <b-form-group
                             :label="$t('profile.email')"
                             label-for="email"
@@ -66,34 +67,25 @@
 </template>
 
 <script lang="ts">
-
-    // TODO: move to dedicated folder (rebase structure)
-    class Form {
-        public firstName: string;
-        public middleInitial: string;
-        public lastName: string;
-        public email: string;
-
-        constructor(
-            public _firstName: string,
-            public _lastName: string,
-            public _middleInitial: string,
-            public _email: string
-        ) {
-            this.firstName = _firstName;
-            this.lastName = _lastName;
-            this.middleInitial = _middleInitial;
-            this.email = _email;
-        }
-    }
+    import {Client} from "@/ts/class/api/Client";
+    import { ProfileForm } from '@/ts/types';
+    import {$t} from "@/lang";
 
     export default {
         name: "Profile",
-        data(){
-            return {
-                form: new Form("Name", "Surname", "Midname", "sample@mail.com")
-            }
+        props: {
+            client: Client
         },
+        data: () => ({
+            form: {
+                // firstName: "Name",
+                // lastName: "Surname",
+                // middleInitial: "Middlename",
+                name: "Name Surname Middlename",
+                email: "user@example.com",
+            } as ProfileForm,
+            $t: $t
+        }),
         methods: {
             onSubmit: function(){
 

@@ -8,6 +8,7 @@ export default class Task {
     public maxSeconds: number;
     public language: string;
     public sampleCode: string;
+    public completed: boolean;
 
     public code: string;
 
@@ -17,7 +18,7 @@ export default class Task {
     readonly MAX_DIFFICULTY: number = 5;
     readonly MIN_DIFFICULTY: number = 1;
 
-    constructor(title: string, htmlDescription: string, difficulty: number, maxMemory: number, maxSeconds: number, language: string, sampleCode: string, output: string) {
+    constructor(title: string, htmlDescription: string, difficulty: number, maxMemory: number, maxSeconds: number, language: string, sampleCode: string, output: string, completed?: boolean) {
         this.title = title;
         this.description = htmlDescription;
         this.difficulty = Math.min(Math.max(difficulty, this.MIN_DIFFICULTY), this.MAX_DIFFICULTY);
@@ -29,6 +30,8 @@ export default class Task {
         this.code = "";
         this.output = output;
         this.inputs = [];
+
+        this.completed = completed || false;
     }
 
     public addInput(...tasks: Input[]): this {

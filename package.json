@@ -15,14 +15,15 @@
     "core-js": "^3.21.1",
     "intersection-observer": "^0.12.0",
     "portal-vue": "^2.1.7",
+    "prismjs": "latest",
     "regenerator-runtime": "^0.13.9",
     "sass": "^1.49.9",
     "vue": "^2.6.11",
     "vue-i18n": "^8.27.0",
     "vue-prism-editor": "^1.3.0",
     "vue-router": "^3.2.0",
-    "vuex": "^3.4.0",
-    "prismjs": "latest"
+    "vue-scrollto": "^2.20.0",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.0.0",

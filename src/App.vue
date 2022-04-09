@@ -49,18 +49,19 @@
                                 ></b-form-input>
                             </b-form-group>
 
-                            <b-form-checkbox class="mb-3">{{$t('app.widget.login.rememberMe')}}</b-form-checkbox>
+<!--                            <b-form-checkbox class="mb-3">{{$t('app.widget.login.rememberMe')}}</b-form-checkbox>-->
                             <b-button variant="primary" size="sm" @click="onSignIn">{{$t('app.widget.login.signIn')}}</b-button>
                         </b-dropdown-form>
                         <b-dropdown-divider></b-dropdown-divider>
-                        <b-dropdown-item-button>{{$t('app.widget.login.forgotPassword')}}</b-dropdown-item-button>
-                        <b-dropdown-item-button>{{$t('app.widget.login.signUp')}}</b-dropdown-item-button>
+                        <b-dropdown-item to="/lost-password">{{$t('app.widget.login.forgotPassword')}}</b-dropdown-item>
+                        <b-dropdown-item to="/register">{{$t('app.widget.login.signUp')}}</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
 
-        <router-view/>
+        <router-view
+            :client="client"></router-view>
 
         <footer class="pb-2">
             <hr>
@@ -73,13 +74,15 @@
 <script lang="ts">
     import {$t} from '@/lang';
     import router from '@/router';
-    import URL from '@/ts/types';
+    import {URL} from '@/ts/types';
     import Store from "@/store";
+    import { Client } from './ts/class/api/Client';
 
     export default {
         name: 'Home',
-        data(){
-            let links: Array<URL> = [
+        data: () => ({
+            $t: $t,
+            links: [
                 {
                     title: $t('home.title'),
                     url: "/"
@@ -92,17 +95,12 @@
                     title: $t('tasks.title'),
                     url: "/tasks/"
                 }
-            ];
+            ] as Array<URL>,
+            title: process.env.VUE_APP_TITLE,
+            copyright: process.env.VUE_APP_COPYRIGHT,
 
-            // console.log(Store.state.hehehe);
-
-            return {
-                $t: $t,
-                links: links,
-                title: process.env.VUE_APP_TITLE,
-                copyright: process.env.VUE_APP_COPYRIGHT,
-            };
-        },
+            client: new Client(process.env.VUE_APP_API_MOUNT)
+        }),
 
         methods: {
             onLinkClicked(e: Event, link: URL){

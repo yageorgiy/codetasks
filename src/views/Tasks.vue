@@ -28,18 +28,17 @@
     import {$t} from '@/lang';
     import Store from "@/store";
     import router from '@/router';
+    import {Client} from "@/ts/class/api/Client";
 
     export default {
         name: "Tasks",
-        data(){
-            // Store.commit('increment');
-            // console.log(Store.state.test);
-
-            return {
-                $t: $t,
-                categories: Store.state.categories
-            }
+        props: {
+            client: Client
         },
+        data: () => ({
+            $t: $t,
+            categories: Store.state.categories
+        }),
         methods: {
             onTaskClicked(e: Event, link: string){
                 e.preventDefault();

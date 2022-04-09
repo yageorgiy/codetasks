@@ -2,6 +2,16 @@
     margin: 1.5rem !important;
 }
 
+@media screen and (max-width: 575px) {
+    .page {
+        margin: 1.5rem 0 1.5rem 0 !important;
+    }
+
+    .display-3{
+        font-size: 2.5rem !important;
+    }
+}
+
 .bottom-bar{
     position: sticky;
     bottom: 0;
@@ -13,4 +23,8 @@
     z-index: 11;
     top: 55px;
     left: 0;
+}
+
+* {
+    scrollbar-color: var(--secondary) var(--dark);
 }

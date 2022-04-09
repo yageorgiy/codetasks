@@ -55,13 +55,17 @@
     }
 </style>
 
-<script>
+<script lang="ts">
     // @ is an alias to /src
     import HelloWorld from '@/components/HelloWorld.vue';
     import {$t} from '@/lang';
+    import { Client } from '@/ts/class/api/Client';
 
     export default {
         name: 'Home',
+        props: {
+            client: Client
+        },
         components: {
             HelloWorld
         },
