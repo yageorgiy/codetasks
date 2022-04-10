@@ -4,7 +4,7 @@
             <template #aside>
                 <b-avatar icon="person-fill" size="4em"></b-avatar>
             </template>
-            <h5 class="mt-0 mb-1">@username</h5>
+<!--            <h5 class="mt-0 mb-1">@username</h5>-->
             <p class="mb-0">
                 <b-form @submit="onSubmit" @reset="onReset">
                     <b-form-group
@@ -14,7 +14,7 @@
                         <b-form-input
                                 id="name"
                                 disabled
-                                v-model="form.name"
+                                :value="client.fullName || $t('app.loading')"
                                 required
                         ></b-form-input>
                     </b-form-group>
@@ -51,8 +51,8 @@
                         <b-form-input
                                 id="email"
                                 disabled
-                                v-model="form.email"
                                 type="email"
+                                :value="client.email || $t('app.loading')"
                                 required
                         ></b-form-input>
                     </b-form-group>
@@ -77,13 +77,6 @@
             client: Client
         },
         data: () => ({
-            form: {
-                // firstName: "Name",
-                // lastName: "Surname",
-                // middleInitial: "Middlename",
-                name: "Name Surname Middlename",
-                email: "user@example.com",
-            } as ProfileForm,
             $t: $t
         }),
         methods: {

@@ -95,13 +95,12 @@
             onSubmit(e: Event){
                 e.preventDefault();
 
+                const _this = this;
                 this.apiCall = this.client.register(this.form.name, this.form.email, this.form.password);
-
-                this.apiCall.onSuccess = () => {
+                this.apiCall.onSuccess = (data: any) => {
+                    _this.client.sessionAuthorize(data.token);
                     router.push("/");
                 };
-
-                const _this = this;
                 this.apiCall.onError = () => {
                     _this.$nextTick(() => { this.$scrollTo("#errorMessage"); });
                 };

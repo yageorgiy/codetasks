@@ -4,7 +4,9 @@
             {{apiCall.error}}
         </b-alert>
 
-
+        <b-alert :show="router.currentRoute.query.unknownToken === 'true'" variant="warning" id="warningMessage">
+            {{$t("app.errors.reloginError")}}
+        </b-alert>
 
         <b-form @submit="onSubmit">
             <b-form-group
@@ -70,19 +72,19 @@
                 password: ""
             } as LoginForm,
             apiCall: new ApiCall(null) as ApiCall,
+            router: router,
             $t: $t
         }),
         methods: {
             onSubmit(e: Event){
                 e.preventDefault();
+                const _this = this;
 
                 this.apiCall = this.client.login(this.form.email, this.form.password);
-
-                this.apiCall.onSuccess = () => {
+                this.apiCall.onSuccess = (data: any) => {
                     router.push("/");
+                    _this.client.sessionAuthorize(data.token);
                 };
-
-                const _this = this;
                 this.apiCall.onError = () => {
                     _this.$nextTick(() => { this.$scrollTo("#errorMessage"); });
                 };

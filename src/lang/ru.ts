@@ -18,10 +18,14 @@ export default {
             }
         },
 
+        loading: "Загрузка...",
+
         errors: {
             errorPrefix: "Ошибка выполнения запроса на сервер: {details}",
 
             anyConnectionError: "Не удалось соединиться с сервером.",
+
+            reloginError: "Требуется войти в аккаунт",
 
             e0: "Ошибок нет",                                                                           // NoError
             e1: "Внутренняя ошибка сервера",                                                            // Internal

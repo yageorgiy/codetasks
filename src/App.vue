@@ -26,37 +26,64 @@
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto">
-                    <b-nav-item-dropdown id="dropdown-form-button" ref="dropdown" right>
+                <b-navbar-nav v-if="!client.sessionIsStarted()" class="ml-auto">
+                    <b-nav-item-dropdown id="dropdown-form-button" ref="dropdown" right @hide="onHide">
                         <template #button-content>
                             <b-avatar icon="person-fill" size="2em"></b-avatar> {{$t('app.widget.login.title')}}
                         </template>
-                        <b-dropdown-form id="dropdown-form">
-                            <b-form-group :label="$t('app.widget.login.email')" label-for="dropdown-form-email" @submit.stop.prevent>
+                        <b-dropdown-form id="dropdown-form" @submit.stop.prevent>
+                            <b-form-group :label="$t('app.widget.login.email')" label-for="dropdown-form-email">
                                 <b-form-input
                                         id="dropdown-form-email"
                                         size="sm"
+                                        type="email"
+                                        v-model="form.email"
                                         :placeholder="$t('app.widget.login.placeholders.email')"
+                                        v-if="!apiCall.isBusy"
                                 ></b-form-input>
+                                <b-skeleton
+                                        v-else
+                                        type="input"
+                                ></b-skeleton>
                             </b-form-group>
 
                             <b-form-group :label="$t('app.widget.login.password')" label-for="dropdown-form-password">
                                 <b-form-input
                                         id="dropdown-form-password"
                                         type="password"
+                                        v-model="form.password"
                                         size="sm"
                                         :placeholder="$t('app.widget.login.placeholders.password')"
+                                        v-if="!apiCall.isBusy"
                                 ></b-form-input>
+                                <b-skeleton
+                                        v-else
+                                        type="input"
+                                ></b-skeleton>
                             </b-form-group>
 
 <!--                            <b-form-checkbox class="mb-3">{{$t('app.widget.login.rememberMe')}}</b-form-checkbox>-->
-                            <b-button variant="primary" size="sm" @click="onSignIn">{{$t('app.widget.login.signIn')}}</b-button>
+
+                            <label class="text-danger d-block" v-if="!apiCall.isBusy && apiCall.error !== ''">{{apiCall.error}}</label>
+
+                            <b-button
+                                    v-if="!apiCall.isBusy"
+                                    variant="primary"
+                                    size="sm"
+                                    @click="onSignIn($event)"
+                            >{{$t('app.widget.login.signIn')}}</b-button>
+                            <b-skeleton v-else type="button"></b-skeleton>
                         </b-dropdown-form>
                         <b-dropdown-divider></b-dropdown-divider>
                         <b-dropdown-item to="/lost-password">{{$t('app.widget.login.forgotPassword')}}</b-dropdown-item>
                         <b-dropdown-item to="/register">{{$t('app.widget.login.signUp')}}</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
+
+                <b-navbar-nav v-else class="ml-auto">
+                    <b-nav-item href="#" disabled>{{client.fullName === "" ? $t("app.loading") : client.fullName}}</b-nav-item>
+                </b-navbar-nav>
+
             </b-collapse>
         </b-navbar>
 
@@ -72,13 +99,17 @@
 </template>
 
 <script lang="ts">
+    import Vue from 'vue';
     import {$t} from '@/lang';
     import router from '@/router';
-    import {URL} from '@/ts/types';
+    import {URL, LoginForm} from '@/ts/types';
     import Store from "@/store";
     import { Client } from './ts/class/api/Client';
+    import { ApiCall } from './ts/class/api/ApiCall';
+    import {BNavItemDropdown} from "bootstrap-vue";
+    import {Dictionary} from "vue-router/types/router";
 
-    export default {
+    export default Vue.extend({
         name: 'Home',
         data: () => ({
             $t: $t,
@@ -96,11 +127,29 @@
                     url: "/tasks/"
                 }
             ] as Array<URL>,
+            form: {
+                email: "",
+                password: ""
+            } as LoginForm,
             title: process.env.VUE_APP_TITLE,
             copyright: process.env.VUE_APP_COPYRIGHT,
+            apiCall: new ApiCall(null) as ApiCall,
 
-            client: new Client(process.env.VUE_APP_API_MOUNT)
+            client: new Client(process.env.VUE_APP_API_MOUNT),
+
+            __canClose: true
         }),
+
+        mounted(){
+            if(localStorage.token)
+            {
+                this.client.sessionAuthorizeVerified(localStorage.token, () => {
+                    router.push({
+                        path: "/login?unknownToken=true"
+                    });
+                });
+            }
+        },
 
         methods: {
             onLinkClicked(e: Event, link: URL){
@@ -109,11 +158,30 @@
                     router.push(link.url);
             },
 
-            onSignIn(){
+            onSignIn(e: Event){
+                // e.preventDefault();
 
+                this.__canClose = false;
+
+                this.apiCall = this.client.login(this.form.email, this.form.password);
+
+                this.apiCall.onSuccess = (data: any) => {
+                    _this.client.sessionAuthorize(data.token);
+                };
+
+                const _this = this;
+                this.apiCall.onError = () => {
+                    (_this.$refs.dropdown as BNavItemDropdown)?.show();
+                };
+            },
+            onHide(bvEvent: Event) {
+                if(!this.__canClose){
+                    this.__canClose = true;
+                    bvEvent.preventDefault();
+                }
             }
         }
-    }
+    })
 </script>
 
 <style>

@@ -53,7 +53,7 @@ Vue.use(VueScrollTo, {
     onCancel: false,
     x: false,
     y: true
-})
+});
 
 // Prism.js Editor
 import { PrismEditor } from 'vue-prism-editor';
