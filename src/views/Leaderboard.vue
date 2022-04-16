@@ -20,11 +20,13 @@
     import {ApiCall} from "@/ts/class/api/ApiCall";
     import {Client} from "@/ts/class/api/Client";
     import {$t} from "@/lang";
+    import VueRouter from 'vue-router';
 
     export default Vue.extend({
         name: "Leaderboard",
         props: {
-            client: Client
+            client: Client,
+            router: VueRouter
         },
         data: () => ({
             apiCall: new ApiCall(null) as ApiCall,
@@ -38,6 +40,10 @@
             items: [] as Array<{name: string, score: number}>
         }),
         mounted() {
+            if(!this.client.sessionIsStarted()){
+                this.router.push("/login?unknownToken=true");
+                return;
+            }
             this.getLeaderboard();
         },
         methods: {
