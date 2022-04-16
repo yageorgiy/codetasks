@@ -99,6 +99,18 @@
             if(!this.client.sessionIsStarted()){
                 this.router.push("/login?unknownToken=true");
             }
+
+            // TODO: reload form
+            // TODO: reload form
+            // TODO: reload form
+            // TODO: reload form
+            // TODO: reload form
+            // TODO: reload form
+            // TODO: reload form
+            // TODO: reload form
+            // TODO: reload form
+            // TODO: reload form
+            // TODO: reload form
         },
         methods: {
             onSubmit: function(){

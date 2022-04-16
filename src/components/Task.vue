@@ -109,6 +109,7 @@
         </label>
 
         <!-- Code editor -->
+        <!-- TODO: remove black border from Chrome and Opera -->
         <prism-editor
             v-if="language !== '' && language !== undefined"
             class="editor"
