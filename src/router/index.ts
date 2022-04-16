@@ -21,6 +21,11 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: "tasks" */ '../views/Tasks.vue')
     },
     {
+        path: '/tasks/:cat_id/:unit_id/:task_id/',
+        name: "page.task",
+        component: () => import(/* webpackChunkName: "tasks" */ '../views/Tasks.vue')
+    },
+    {
         path: '/login',
         name: "page.login",
         component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
@@ -29,11 +34,6 @@ const routes: Array<RouteConfig> = [
         path: '/register',
         name: "page.register",
         component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue')
-    },
-    {
-        path: '/tasks/:cat_id/:task_id',
-        name: "page.task",
-        component: () => import(/* webpackChunkName: "task" */ '../views/Task.vue')
     },
     {
         path: '/404',

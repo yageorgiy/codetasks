@@ -10,7 +10,10 @@ export class Client {
     public userInfoApiCall: ApiCall;
     public email: string;
     public fullName: string;
+    public score: number;
 
+    public globalTransportErrorHandler: (e: Event) => void;
+    public globalDataErrorHandler: (e: any) => void;
 
     constructor(mount: string) {
         // Api mount stuff
@@ -20,9 +23,18 @@ export class Client {
         // Cross-application data
         this.email = "";
         this.fullName = "";
+        this.score = -1;
 
         // Profile info ApiCall
         this.userInfoApiCall = new ApiCall(null);
+
+        // Global request
+        const _this = this;
+        this.globalTransportErrorHandler = () => {};
+        this.globalDataErrorHandler = (data: any) => {
+            if(data.error === ApiErrors.TokenUnknown)
+                _this.sessionForget();
+        };
     }
 
     public request(url: string, data: any, method? : Method): ApiCall {
@@ -69,11 +81,14 @@ export class Client {
             request.isBusy = false;
         });
 
+        const _this = this;
+
         // JSON parsing & high-level (data) error catches
         f.then((r: Response) => r.json())
             .then((data: any) => {
                 if(data.error !== undefined && data.error !== ApiErrors.NoError){
                     request.error = $t(`app.errors.e${data.error}`).toString();
+                    _this.globalDataErrorHandler.call(request, data);
                     request.onError.call(request, data);
                     return;
                 }
@@ -91,20 +106,20 @@ export class Client {
      * @param token
      * @param onError
      */
-    public sessionAuthorizeVerified(token: string, onError? : () => void){
-        const _this = this;
-        const sessionVerify = this.verify(token);
-
-        sessionVerify.onSuccess = () => {
-            _this.sessionAuthorize(token);
-        };
-
-        sessionVerify.onError = () => {
-            _this.sessionForget();
-            if(onError != undefined)
-                onError();
-        };
-    }
+    // public sessionAuthorizeVerified(token: string, onError? : () => void){
+    //     const _this = this;
+    //     const sessionVerify = this.verify(token);
+    //
+    //     sessionVerify.onSuccess = () => {
+    //         _this.sessionAuthorize(token);
+    //     };
+    //
+    //     sessionVerify.onError = () => {
+    //         _this.sessionForget();
+    //         if(onError != undefined)
+    //             onError();
+    //     };
+    // }
 
     /**
      * Session start and get profile info
@@ -126,12 +141,12 @@ export class Client {
     /**
      * Session verification of current token
      */
-    public sessionVerify(): ApiCall {
-        if(!this.sessionIsStarted())
-            return new ApiCall(null);
-
-        return this.verify(this.token);
-    }
+    // public sessionVerify(): ApiCall {
+    //     if(!this.sessionIsStarted())
+    //         return new ApiCall(null);
+    //
+    //     return this.verify(this.token);
+    // }
 
     /**
      * Full session removal with server sync
@@ -155,6 +170,7 @@ export class Client {
         this.userInfoApiCall.onSuccess = (data: any) => {
             this.fullName = data.name || "";
             this.email = data.email || "";
+            this.score = (data.score != undefined) ? data.score : 0;
         };
     }
 
@@ -168,6 +184,7 @@ export class Client {
         // Forget user data
         this.fullName = "";
         this.email = "";
+        this.score = -1;
     }
 
     /**
@@ -202,15 +219,34 @@ export class Client {
         });
     }
 
-    public verify(token: string): ApiCall {
-        return this.request("verify", {
-            token: token
-        });
-    }
+    // public verify(token: string): ApiCall {
+    //     return this.request("verify", {
+    //         token: token
+    //     });
+    // }
 
     public profile(token: string): ApiCall {
         return this.request("profile", {
             token: token
         });
+    }
+
+    public tasksHierarchy(token: string): ApiCall {
+        return this.request("tasks/hierarchy", {
+            token: token
+        });
+    }
+
+    public languages(): ApiCall {
+        return this.request("languages", {});
+    }
+
+    public solution(token: string, source_text: string, lang: string, task_id: number): ApiCall {
+        // TODO: prettify
+        return this.request("solution?token=" + token, {
+            source_text: source_text,
+            lang: lang,
+            task_id: task_id
+        }, Method.POST);
     }
 }

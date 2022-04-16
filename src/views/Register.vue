@@ -7,7 +7,7 @@
             {{apiCall.error}}
         </b-alert>
 
-        <b-form @submit="onSubmit">
+        <b-form @submit="onSubmit" v-if="!done">
             <b-form-group
                     id="email-input-group"
                     :label="$t('register.form.email.label')"
@@ -63,6 +63,10 @@
             <b-skeleton type="button" v-else></b-skeleton>
         </b-form>
 
+        <b-alert :show="done" variant="success" id="successMessage">
+            {{$t("register.succeeded")}}
+        </b-alert>
+
     </div>
 </template>
 
@@ -88,7 +92,8 @@
             apiCall: new ApiCall(null) as ApiCall,
 
             $t: $t,
-            router: router
+            router: router,
+            done: false
         }),
 
         methods: {
@@ -98,8 +103,9 @@
                 const _this = this;
                 this.apiCall = this.client.register(this.form.name, this.form.email, this.form.password);
                 this.apiCall.onSuccess = (data: any) => {
-                    _this.client.sessionAuthorize(data.token);
-                    router.push("/");
+                    _this.done = true;
+                    // _this.client.sessionAuthorize(data.token);
+                    // router.push("/");
                 };
                 this.apiCall.onError = () => {
                     _this.$nextTick(() => { this.$scrollTo("#errorMessage"); });

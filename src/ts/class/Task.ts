@@ -1,12 +1,13 @@
 import Input from './Input';
+import { TaskErrorType } from '../types';
 
 export default class Task {
     public title: string;
     public description: string;
-    public difficulty: number;
-    public maxMemory: number; //MB
+    public score: number;
     public maxSeconds: number;
-    public language: string;
+    public id: number;
+    // public language: string;
     public sampleCode: string;
     public completed: boolean;
 
@@ -15,16 +16,20 @@ export default class Task {
     public inputs: Input[];
     public output: string;
 
-    readonly MAX_DIFFICULTY: number = 5;
-    readonly MIN_DIFFICULTY: number = 1;
+    public lastError: TaskErrorType;
 
-    constructor(title: string, htmlDescription: string, difficulty: number, maxMemory: number, maxSeconds: number, language: string, sampleCode: string, output: string, completed?: boolean) {
+    // readonly MAX_DIFFICULTY: number = 5;
+    // readonly MIN_DIFFICULTY: number = 1;
+
+    constructor(id: number, title: string, htmlDescription: string, score: number, maxSeconds: number, sampleCode: string, output: string, completed?: boolean) {
+        this.id = id;
         this.title = title;
         this.description = htmlDescription;
-        this.difficulty = Math.min(Math.max(difficulty, this.MIN_DIFFICULTY), this.MAX_DIFFICULTY);
-        this.maxMemory = maxMemory;
+        // this.score = Math.min(Math.max(difficulty, this.MIN_DIFFICULTY), this.MAX_DIFFICULTY);
+        this.score = score;
+        // this.maxMemory = maxMemory;
         this.maxSeconds = maxSeconds;
-        this.language = language;
+        // this.language = language;
         this.sampleCode = sampleCode;
 
         this.code = "";
@@ -32,6 +37,7 @@ export default class Task {
         this.inputs = [];
 
         this.completed = completed || false;
+        this.lastError = {} as TaskErrorType;
     }
 
     public addInput(...tasks: Input[]): this {

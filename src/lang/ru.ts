@@ -15,7 +15,8 @@ export default {
                 "forgotPassword": "Забыли пароль?",
                 "signUp": "Регистрация",
                 "signIn": "Войти"
-            }
+            },
+            logout: "Выйти"
         },
 
         loading: "Загрузка...",
@@ -26,6 +27,7 @@ export default {
             anyConnectionError: "Не удалось соединиться с сервером.",
 
             reloginError: "Требуется войти в аккаунт",
+            noLanguagesError: "Языки программирования не были загружены. Пожалуйста, обновите страницу или попробуйте позже.",
 
             e0: "Ошибок нет",                                                                           // NoError
             e1: "Внутренняя ошибка сервера",                                                            // Internal
@@ -36,15 +38,14 @@ export default {
             e102: "E-mail не зарегистрирован",                                                          // EmailUnknown
             e103: "E-mail уже зарегистрирован",                                                         // EmailTaken
 
-
             e200: "Поле пароля не заполнено",                                                           // PasswordNotProvided
-            e201: "Неверный формат пароля",                                                             // PasswordInvalid
+            e201: "Неверный формат пароля (слишком короткий пароль)",                                   // PasswordInvalid
             e202: "Неверный пароль",                                                                    // PasswordWrong
 
             e300: "Ключ сессии не предоставлен (ошибка приложения)",                                    // TokenNotProvided
             e301: "Ключ сессии неверный (ошибка приложения)",                                           // TokenInvalid
             e302: "Неизвестный ключ сессии (ошибка приложения)",                                        // TokenUnknown
-            e303: "Ключ сессии недействительный (выполните повторно вход в аккаунт)",                   // TokenNotVerified
+            e303: "Подтвердите вход, перейдя по ссылке из письма (проверьте почту)",       // TokenNotVerified
             e304: "Вход был совершён с другого IP-адреса",                                              // TokenBoundToOtherIP
 
             e400: "Не предоставлен номер задания",                                                      // TaskIdNotProvided
@@ -125,6 +126,8 @@ export default {
     },
 
     register: {
+        succeeded: "Регистрация успешно завершена. Проверьте почту, перейдите по указанной ссылке и войдите в свой аккаунт, используя свои e-mail и пароль.",
+
         form: {
             title: "Регистрация нового аккаунта",
             name: {
@@ -151,16 +154,16 @@ export default {
         // lastName: "Фамилия:",
         // middleInitial: "Отчество:",
         name: "ФИО:",
-        email: "E-mail:"
-
+        email: "E-mail:",
+        score: "Баллы:"
     },
 
     tasks: {
         title: "Задачи",
 
-        category: "Категория: {name}",
-        categoryDescription: "Описание категории:",
-        task: "Задача: {name}",
+        unit: "Раздел: {name}",
+        unitDescription: "Описание раздела:",
+        // task: "Задача: {name}",
         input: {
             title: "Входные данные:",
             instance: {
@@ -177,6 +180,22 @@ export default {
         output: "Выходные данные:",
         solution: "Код:",
 
+        success: "Ура! Задача верно решена. Набрано баллов: +{score}",
+        lastResult: "Тестов пройдено: {passed} из {all}.",
+
+        expected: "Ожидалось:\n{result}",
+        inputs: "Вводимые данные:\n{inputs}",
+        result: "Результат (количество символов = {length}):\n{result}",
+
+        language: "Язык: {lang}",
+
         submit: "Отправить"
+    },
+
+    lang: {
+        c: "С",
+        cpp: "C++",
+        pas: "Free Pascal",
+        py: "Python 3.x"
     }
 };

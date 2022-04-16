@@ -56,6 +56,19 @@
                                 required
                         ></b-form-input>
                     </b-form-group>
+
+
+                    <b-form-group
+                            :label="$t('profile.score')"
+                            label-for="name"
+                    >
+                        <b-form-input
+                                id="name"
+                                disabled
+                                :value="client.score"
+                                required
+                        ></b-form-input>
+                    </b-form-group>
 <!--                    {{}}-->
 <!--                    <b-button type="submit" variant="primary">Submit</b-button>-->
 <!--                    <b-button type="reset" variant="danger">Reset</b-button>-->
@@ -67,18 +80,26 @@
 </template>
 
 <script lang="ts">
+    import Vue from 'vue';
     import {Client} from "@/ts/class/api/Client";
     import { ProfileForm } from '@/ts/types';
     import {$t} from "@/lang";
+    import VueRouter from 'vue-router';
 
-    export default {
+    export default Vue.extend({
         name: "Profile",
         props: {
-            client: Client
+            client: Client,
+            router: VueRouter
         },
         data: () => ({
             $t: $t
         }),
+        mounted(){
+            if(!this.client.sessionIsStarted()){
+                this.router.push("/login?unknownToken=true");
+            }
+        },
         methods: {
             onSubmit: function(){
 
@@ -87,7 +108,7 @@
 
             }
         }
-    }
+    })
 </script>
 
 <style scoped>

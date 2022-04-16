@@ -29,7 +29,7 @@
                 <b-navbar-nav v-if="!client.sessionIsStarted()" class="ml-auto">
                     <b-nav-item-dropdown id="dropdown-form-button" ref="dropdown" right @hide="onHide">
                         <template #button-content>
-                            <b-avatar icon="person-fill" size="2em"></b-avatar> {{$t('app.widget.login.title')}}
+                            <b-avatar icon="person" size="2em"></b-avatar> {{$t('app.widget.login.title')}}
                         </template>
                         <b-dropdown-form id="dropdown-form" @submit.stop.prevent>
                             <b-form-group :label="$t('app.widget.login.email')" label-for="dropdown-form-email">
@@ -81,14 +81,23 @@
                 </b-navbar-nav>
 
                 <b-navbar-nav v-else class="ml-auto">
-                    <b-nav-item href="#" disabled>{{client.fullName === "" ? $t("app.loading") : client.fullName}}</b-nav-item>
+                    <b-nav-item-dropdown id="dropdown-form-button" ref="dropdown" right>
+                        <template #button-content>
+                            <b-avatar icon="person-fill" size="2em"></b-avatar> {{client.fullName === "" ? $t("app.loading") : client.fullName}}
+                        </template>
+                        <b-dropdown-item @click="logout()">{{$t('app.widget.logout')}}</b-dropdown-item>
+                    </b-nav-item-dropdown>
+
                 </b-navbar-nav>
 
             </b-collapse>
         </b-navbar>
 
         <router-view
-            :client="client"></router-view>
+            :client="client"
+            :router="router"
+        ></router-view>
+
 
         <footer class="pb-2">
             <hr>
@@ -137,17 +146,15 @@
 
             client: new Client(process.env.VUE_APP_API_MOUNT),
 
+            router: router,
+
             __canClose: true
         }),
 
         mounted(){
             if(localStorage.token)
             {
-                this.client.sessionAuthorizeVerified(localStorage.token, () => {
-                    router.push({
-                        path: "/login?unknownToken=true"
-                    });
-                });
+                this.client.sessionAuthorize(localStorage.token);
             }
         },
 
@@ -155,7 +162,7 @@
             onLinkClicked(e: Event, link: URL){
                 e.preventDefault();
                 if(window.location.pathname !== link.url)
-                    router.push(link.url);
+                    this.router.push(link.url);
             },
 
             onSignIn(e: Event){
@@ -179,6 +186,12 @@
                     this.__canClose = true;
                     bvEvent.preventDefault();
                 }
+            },
+
+            logout(){
+                this.client.sessionLogout();
+                (this.$refs.dropdown as BNavItemDropdown)?.hide();
+                this.router.push("/login");
             }
         }
     })

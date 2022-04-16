@@ -1,22 +1,20 @@
-import Task from "@/ts/class/Task";
+import Unit from "@/ts/class/Unit";
 
 export default class Category {
     public name: string;
-    public description: string;
-    public tasks: Array<Task>;
-    constructor(name: string, description: string) {
+    public units: Array<Unit>;
+    constructor(name: string) {
         this.name = name;
-        this.description = description;
-        this.tasks = new Array<Task>();
+        this.units = new Array<Unit>();
     }
-    public addTask(...tasks: Task[]): this {
-        for(let task of tasks)
-            this.tasks.push(task);
+    public addUnit(...units: Unit[]): this {
+        for(let task of units)
+            this.units.push(task);
         return this;
     }
-    public addTasks(tasks: Task[]): this {
-        for(let task of tasks)
-            this.tasks.push(task);
+    public addUnits(units: Unit[]): this {
+        for(let task of units)
+            this.units.push(task);
         return this;
     }
 };
