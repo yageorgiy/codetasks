@@ -1,5 +1,7 @@
 # Codetasks
 
+Licence: MIT
+
 TODO: description
 
 ## Project setup

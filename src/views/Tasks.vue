@@ -10,6 +10,7 @@
             >{{i.text}}</b-breadcrumb-item>
         </b-breadcrumb>
 
+        <!-- TODO: dedicated component -->
         <b-alert variant="warning" :show="loading">
            <b-icon icon="hourglass-top" animation="spin"></b-icon> {{$t("app.loading")}}
         </b-alert>
@@ -32,13 +33,17 @@
 
                         <b-list-group flush>
                             <b-list-group-item
-                                    :variant="task.completed ? 'success' : ''"
+                                    :variant="task.completed === 1 ? 'success' : ''"
                                     v-for="(task, task_index) in unit.tasks"
                                     :href="taskUrl(category_index, unit_index, task_index)"
                                     @click="onTaskClicked($event, category_index, unit_index, task_index)"
                             >
 <!--                                {{$t('tasks.task', {name: task.title})}}-->
-                                {{task.title}}
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{task.title}}</h6>
+                                    <small>{{$t('tasks.score', {gained: task.completed * task.score, all: task.score})}}</small>
+                                </div>
+
                             </b-list-group-item>
                         </b-list-group>
                     </b-card>

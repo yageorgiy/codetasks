@@ -36,6 +36,16 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue')
     },
     {
+        path: '/leaderboard',
+        name: "page.leaderboard",
+        component: () => import(/* webpackChunkName: "leaderboard" */ '../views/Leaderboard.vue')
+    },
+    {
+        path: '/lost-password',
+        name: "page.restorePassword",
+        component: () => import(/* webpackChunkName: "restorePassword" */ '../views/RestorePassword.vue')
+    },
+    {
         path: '/404',
         name: 'page.e404',
         component: () => import(/* webpackChunkName: "error404" */ '../views/errors/Error404.vue'),

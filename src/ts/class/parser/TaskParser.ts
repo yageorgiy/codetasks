@@ -7,14 +7,14 @@ import InputParser from "@/ts/class/parser/InputParser";
 export default class TaskParser extends Parser<Task> {
     parse(data: any): Task {
         const task = new Task(
-            data.id || 0,
+            (data.id !== undefined) ? data.id : 0,
             data.name || "",
             data.desc || "",
-            data.score || -1,
+            (data.score !== undefined) ? data.score : -1,
             0.5,
             "",
             data.output || "",
-            data.completion || false
+            (data.completion !== undefined) ? data.completion : 0
         );
 
         for(let i in data.input)

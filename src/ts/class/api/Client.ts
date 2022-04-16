@@ -213,6 +213,13 @@ export class Client {
         }, Method.POST);
     }
 
+    public restore(email: string, newPassword: string): ApiCall {
+        return this.request("restore", {
+            email: email,
+            pass: newPassword,
+        }, Method.POST);
+    }
+
     public logout(token: string): ApiCall {
         return this.request("logout", {
             token: token
@@ -239,6 +246,19 @@ export class Client {
 
     public languages(): ApiCall {
         return this.request("languages", {});
+    }
+
+    public template(token: string, language: string): ApiCall {
+        return this.request("template", {
+            lang: language,
+            token: token
+        });
+    }
+
+    public leaderboard(token: string): ApiCall {
+        return this.request("leaderboard", {
+            token: token
+        });
     }
 
     public solution(token: string, source_text: string, lang: string, task_id: number): ApiCall {

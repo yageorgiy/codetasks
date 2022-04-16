@@ -17,11 +17,11 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
                     <b-nav-item
-                        v-for="link in links"
+                        v-for="link in (client.sessionIsStarted() ? links : linksUnauthorized)"
                         @click="onLinkClicked($event, link)"
                         :href="link.url"
-                        :class="$route.path === link.url ? 'nav-bar-item-selected' : ''"
-                        :aria-selected="$route.path === link.toString()"
+                        :class="link.check($router.path) ? 'nav-bar-item-selected' : ''"
+                        :aria-selected="link.check($router.path)"
                     >{{link.title}}</b-nav-item>
                 </b-navbar-nav>
 
@@ -120,22 +120,68 @@
 
     export default Vue.extend({
         name: 'Home',
+
         data: () => ({
             $t: $t,
+
+            /* For authorized users */
             links: [
                 {
                     title: $t('home.title'),
-                    url: "/"
+                    url: "/",
+                    check(url: string){
+                        return router.currentRoute.matched.some(({ name }) => name === 'page.home');
+                    }
                 },
                 {
                     title: $t('profile.title'),
-                    url: "/profile/"
+                    url: "/profile/",
+                    check(url: string){
+                        return router.currentRoute.matched.some(({ name }) => name === 'page.profile');
+                    }
                 },
                 {
                     title: $t('tasks.title'),
-                    url: "/tasks/"
+                    url: "/tasks/",
+                    check(url: string){
+                        // TODO: refactor
+                        return router.currentRoute.matched.some(({ name }) => name === 'page.tasks') || /\/tasks\/(.+)\//i.test(router.currentRoute.path);
+                    }
+                },
+                {
+                    title: $t('leaderboard.title'),
+                    url: "/leaderboard/",
+                    check(url: string){
+                        return router.currentRoute.matched.some(({ name }) => name === 'page.leaderboard');
+                    }
                 }
             ] as Array<URL>,
+
+            /* For anonymous users */
+            linksUnauthorized: [
+                {
+                    title: $t('home.title'),
+                    url: "/",
+                    check(url: string){
+                        return router.currentRoute.matched.some(({ name }) => name === 'page.home');
+                    }
+                },
+                {
+                    title: $t('login.title'),
+                    url: "/login/",
+                    check(url: string){
+                        return router.currentRoute.matched.some(({ name }) => name === 'page.login');
+                    }
+                },
+                {
+                    title: $t('register.title'),
+                    url: "/register/",
+                    check(url: string){
+                        return router.currentRoute.matched.some(({ name }) => name === 'page.register');
+                    }
+                }
+            ] as Array<URL>,
+
             form: {
                 email: "",
                 password: ""
@@ -152,6 +198,8 @@
         }),
 
         mounted(){
+            document.title = process.env.VUE_APP_TITLE;
+
             if(localStorage.token)
             {
                 this.client.sessionAuthorize(localStorage.token);
@@ -161,7 +209,7 @@
         methods: {
             onLinkClicked(e: Event, link: URL){
                 e.preventDefault();
-                if(window.location.pathname !== link.url)
+                if(!link.check(router.currentRoute.toString()))
                     this.router.push(link.url);
             },
 
@@ -174,6 +222,12 @@
 
                 this.apiCall.onSuccess = (data: any) => {
                     _this.client.sessionAuthorize(data.token);
+
+                    _this.form.email = "";
+                    _this.form.password = "";
+
+                    if(window.location.pathname !== "/tasks")
+                        _this.router.push("/tasks");
                 };
 
                 const _this = this;
@@ -191,7 +245,8 @@
             logout(){
                 this.client.sessionLogout();
                 (this.$refs.dropdown as BNavItemDropdown)?.hide();
-                this.router.push("/login");
+                if(window.location.pathname !== "/login")
+                    this.router.push("/login");
             }
         }
     })

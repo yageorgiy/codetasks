@@ -1,7 +1,14 @@
 <template>
     <div class="task">
-        <h1><b-icon icon="check-circle-fill" v-if="task.completed" variant="success"></b-icon> {{task.title}}</h1>
-
+        <h1>
+            <b-icon
+                icon="check-circle-fill"
+                v-if="task.completed === 1"
+                variant="success"
+                :title="$t('tasks.completed.tooltip')"
+            ></b-icon>
+            {{task.title}}
+        </h1>
         <b-card no-body>
             <b-tabs card>
                 <b-tab :title="$t('tasks.tabs.description')" active>
@@ -44,7 +51,7 @@
         <!-- Language select -->
         <b-dropdown
             v-if="languages.length > 0"
-            :text="$t('tasks.language', {lang: $t('lang.' + language)})"
+            :text="(language !== undefined && language !== '') ? $t('tasks.language', {lang: $t('lang.' + language)}) : ''"
             class="mb-3"
             block
             menu-class="w-100"
@@ -62,7 +69,7 @@
 
         <!-- Success -->
         <b-alert v-if="success" variant="success" show id="successMessage">
-            <b-icon icon="check-circle-fill" ></b-icon> {{$t("tasks.success", {score: addScore})}}
+            <b-icon icon="check-circle-fill" ></b-icon> {{$t("tasks.success", {score: task.score})}}
         </b-alert>
 
         <!-- Code errors -->
@@ -94,12 +101,20 @@
             </div>
         </b-alert>
 
+        <label v-if="task.lastError.error_data">
+            {{$t("tasks.lastResult", {
+                passed: task.lastError.error_data.tests_passed,
+                all: task.lastError.error_data.tests_total
+            })}}
+        </label>
+
         <!-- Code editor -->
         <prism-editor
             v-if="language !== '' && language !== undefined"
             class="editor"
             v-model="code"
             :highlight="highlighter"
+            @input="onCodeEdited"
             :tabSize="4"
             line-numbers
         ></prism-editor>
@@ -107,11 +122,8 @@
         <!-- Bottom nav bar -->
         <b-navbar type="light" variant="light" class="mt-4 bottom-bar">
             <b-navbar-nav class="ml-auto w-100">
-                <b-nav-text v-if="task.lastError.error_data">
-                    {{$t("tasks.lastResult", {
-                        passed: task.lastError.error_data.tests_passed,
-                        all: task.lastError.error_data.tests_total
-                    })}}
+                <b-nav-text>
+                    {{$t('tasks.score', {gained: task.score * task.completed, all: task.score})}}
                 </b-nav-text>
 
                 <b-nav-form class="ml-auto">
@@ -177,24 +189,21 @@
             language: "",
             // languages: [] as Array<string>,
             code: "",
+            codeEdited: false,
 
             submitApiCall: new ApiCall(null),
             inputs: [] as Input[],
 
             success: false,
-            addScore: 0
+            // addScore: 0
         }),
 
         mounted(){
             this.language = this.languages[0] as string;
+            this.getTemplateFromCurrentLanguage();
         },
 
         methods: {
-            onTaskClicked(e: Event, link: string){
-                e.preventDefault();
-                if(window.location.pathname !== link)
-                    router.push(link);
-            },
 
             highlighter(code: string) {
 
@@ -217,16 +226,19 @@
 
                     this.task.lastError = data;
 
+                    if(data.score_diff !== undefined)
+                        this.task.completed += data.score_diff;
+
                     _this.$nextTick(() => { this.$scrollTo("#taskError", {
                         offset: -120
                     }); });
                 };
 
                 this.submitApiCall.onSuccess = (data: any) => {
-                    _this.addScore = data.score_diff || 0;
+                    // _this.addScore = data.score_diff || 0;
                     _this.success = true;
 
-                    _this.task.completed = true;
+                    _this.task.completed = 1;
 
                     _this.$nextTick(() => { this.$scrollTo("#successMessage", {
                         offset: -120
@@ -234,8 +246,32 @@
                 };
             },
 
+            getTemplateFromCurrentLanguage(){
+                // if edited before request has been made
+                if(this.codeEdited) {
+                    return;
+                }
+
+                const _this = this;
+
+                const apiCall = this.client.template(this.client.token, this.language);
+                apiCall.onSuccess = (data: any) => {
+                    // if edited after request has been made
+                    if(!_this.codeEdited) {
+                        _this.code = data.template || "";
+                        _this.$forceUpdate();
+                    }
+                };
+
+            },
+
+            onCodeEdited(){
+                this.codeEdited = true;
+            },
+
             changeLanguage(lang: string){
                 this.language = lang;
+                this.getTemplateFromCurrentLanguage();
             }
         }
     });

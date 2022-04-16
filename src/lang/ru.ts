@@ -1,5 +1,7 @@
 export default {
     app: {
+        title: process.env.VUE_APP_TITLE,
+
         widget: {
             login: {
                 "title": "Авторизация",
@@ -29,51 +31,51 @@ export default {
             reloginError: "Требуется войти в аккаунт",
             noLanguagesError: "Языки программирования не были загружены. Пожалуйста, обновите страницу или попробуйте позже.",
 
-            e0: "Ошибок нет",                                                                           // NoError
-            e1: "Внутренняя ошибка сервера",                                                            // Internal
-            e2: "Действие запрещено",                                                                   // MethodNotSupported
+            e0: "Ошибок нет",                                                                                        // NoError
+            e1: "Внутренняя ошибка сервера",                                                                         // Internal
+            e2: "Действие запрещено",                                                                                // MethodNotSupported
 
-            e100: "Поле 'e-mail' не заполнено",                                                         // EmailNotProvided
-            e101: "Поле 'e-mail' введено неверно",                                                      // EmailInvalid
-            e102: "E-mail не зарегистрирован",                                                          // EmailUnknown
-            e103: "E-mail уже зарегистрирован",                                                         // EmailTaken
+            e100: "Поле 'e-mail' не заполнено",                                                                      // EmailNotProvided
+            e101: "Поле 'e-mail' введено неверно",                                                                   // EmailInvalid
+            e102: "E-mail не зарегистрирован",                                                                       // EmailUnknown
+            e103: "E-mail уже зарегистрирован",                                                                      // EmailTaken
 
-            e200: "Поле пароля не заполнено",                                                           // PasswordNotProvided
-            e201: "Неверный формат пароля (слишком короткий пароль)",                                   // PasswordInvalid
-            e202: "Неверный пароль",                                                                    // PasswordWrong
+            e200: "Поле пароля не заполнено",                                                                        // PasswordNotProvided
+            e201: "Неверный формат пароля (слишком короткий пароль)",                                                // PasswordInvalid
+            e202: "Неверный пароль",                                                                                 // PasswordWrong
 
-            e300: "Ключ сессии не предоставлен (ошибка приложения)",                                    // TokenNotProvided
-            e301: "Ключ сессии неверный (ошибка приложения)",                                           // TokenInvalid
-            e302: "Неизвестный ключ сессии (ошибка приложения)",                                        // TokenUnknown
-            e303: "Подтвердите вход, перейдя по ссылке из письма (проверьте почту)",       // TokenNotVerified
-            e304: "Вход был совершён с другого IP-адреса",                                              // TokenBoundToOtherIP
+            e300: "Ключ сессии не предоставлен (ошибка приложения)",                                                 // TokenNotProvided
+            e301: "Ключ сессии неверный (ошибка приложения)",                                                        // TokenInvalid
+            e302: "Неизвестный ключ сессии (ошибка приложения)",                                                     // TokenUnknown
+            e303: "Подтвердите вход, перейдя по ссылке из письма (проверьте почту) и повторите попытку входа",       // TokenNotVerified
+            e304: "Вход был совершён с другого IP-адреса",                                                           // TokenBoundToOtherIP
 
-            e400: "Не предоставлен номер задания",                                                      // TaskIdNotProvided
-            e401: "Неверный номер задания",                                                             // TaskIdInvalid
-            e402: "Задание не найдено",                                                                 // TaskNotFound
+            e400: "Не предоставлен номер задания",                                                                   // TaskIdNotProvided
+            e401: "Неверный номер задания",                                                                          // TaskIdInvalid
+            e402: "Задание не найдено",                                                                              // TaskNotFound
 
-            e500: "Код решения не предоставлен",                                                        // SolutionTextNotProvided
-            e501: "Код решения слишком длинный",                                                        // SolutionTextTooLong
-            e502: "Слишком длинные тесты для проверки",                                                 // SolutionTestsTooLong
-            e503: "Некорректно установлены тесты для проверки",                                         // SolutionTestsInvalid
-            e504: "Ошибка сборки кода решения",                                                         // SolutionBuildFail
-            e505: "Ошибка тестирования предоставленного решения",                                       // SolutionTestFail
-            e506: "Программа работает слишком долго",                                                   // SolutionTimeoutFail
-            e507: "Ошибка выполнения программы решения",                                                // SolutionRuntimeFail
+            e500: "Код решения не предоставлен",                                                                     // SolutionTextNotProvided
+            e501: "Код решения слишком длинный",                                                                     // SolutionTextTooLong
+            e502: "Слишком длинные тесты для проверки",                                                              // SolutionTestsTooLong
+            e503: "Некорректно установлены тесты для проверки",                                                      // SolutionTestsInvalid
+            e504: "Ошибка сборки кода решения",                                                                      // SolutionBuildFail
+            e505: "Ошибка тестирования предоставленного решения",                                                    // SolutionTestFail
+            e506: "Программа работает слишком долго",                                                                // SolutionTimeoutFail
+            e507: "Ошибка выполнения программы решения",                                                             // SolutionRuntimeFail
 
-            e600: "Язык программирования не предоставлен",                                              // LanguageNotProvided
-            e601: "Данный язык программирования не поддерживается",                                     // LanguageNotSupported
+            e600: "Язык программирования не предоставлен",                                                           // LanguageNotProvided
+            e601: "Данный язык программирования не поддерживается",                                                  // LanguageNotSupported
 
-            e700: "Имя не предоставлено",                                                               // NameNotProvided
-            e701: "Неверное имя",                                                                       // NameInvalid
+            e700: "Имя не предоставлено",                                                                            // NameNotProvided
+            e701: "Неверное имя",                                                                                    // NameInvalid
 
-            e800: "",                                                                                   // TasksFoldersInvalid
-            e801: "",                                                                                   // TasksProjectFolderNotFound
-            e802: "",                                                                                   // TasksUnitFolderNotFound
-            e803: "",                                                                                   // TasksTaskFolderNotFound
+            e800: "",                                                                                                // TasksFoldersInvalid
+            e801: "",                                                                                                // TasksProjectFolderNotFound
+            e802: "",                                                                                                // TasksUnitFolderNotFound
+            e803: "",                                                                                                // TasksTaskFolderNotFound
 
-            e900: "",                                                                                   // LeaderboardProjectIdNotProvided
-            e901: "",                                                                                   // LeaderboardProjectFolderNotProvided
+            e900: "Таблицы рекордов не существует",                                                                  // LeaderboardProjectIdNotProvided
+            e901: "Таблицы рекордов не существует",                                                                  // LeaderboardProjectFolderNotProvided
         }
     },
 
@@ -89,26 +91,28 @@ export default {
         title: "Главная",
 
         contents: {
-            h1: "Добро-пожаловать!",
-            p1: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dolor tellus, tempor vel dolor a, rhoncus dignissim urna. Vestibulum tristique massa nunc, ut et leo.",
+            h1: process.env.VUE_APP_WELCOME_MESSAGE,
+            // p1: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dolor tellus, tempor vel dolor a, rhoncus dignissim urna. Vestibulum tristique massa nunc, ut et leo.",
 
-            "card1": {
-                title: "Mauris id",
-                contents: "Aenean auctor sit amet est a tempus. Curabitur eget tempor sapien. Nam viverra fringilla sodales."
-            },
-            "card2": {
-                title: "Vivamus elit libero",
-                contents: "Aenean auctor sit amet est a tempus. Curabitur eget tempor sapien. Nam viverra fringilla sodales."
-            },
-            "card3": {
-                title: "Pellentesque placerat",
-                contents: "Quisque porta sapien. Duis rutrum arcu ex. Etiam feugiat est maximus."
-            }
+            // "card1": {
+            //     title: "Mauris id",
+            //     contents: "Aenean auctor sit amet est a tempus. Curabitur eget tempor sapien. Nam viverra fringilla sodales."
+            // },
+            // "card2": {
+            //     title: "Vivamus elit libero",
+            //     contents: "Aenean auctor sit amet est a tempus. Curabitur eget tempor sapien. Nam viverra fringilla sodales."
+            // },
+            // "card3": {
+            //     title: "Pellentesque placerat",
+            //     contents: "Quisque porta sapien. Duis rutrum arcu ex. Etiam feugiat est maximus."
+            // }
         }
 
     },
 
     login: {
+        title: "Войти в аккаунт",
+
         form:{
             email: {
                 label: "E-mail",
@@ -118,7 +122,8 @@ export default {
                 label: "Пароль",
                 placeholder: "Введите пароль"
             },
-            submit: "Войти"
+            submit: "Войти",
+            restorePassword: "Восстановить пароль"
         },
         errors: {
             incorrectCredentials: "Неверный e-mail или пароль."
@@ -126,6 +131,8 @@ export default {
     },
 
     register: {
+        title: "Регистрация",
+
         succeeded: "Регистрация успешно завершена. Проверьте почту, перейдите по указанной ссылке и войдите в свой аккаунт, используя свои e-mail и пароль.",
 
         form: {
@@ -172,6 +179,10 @@ export default {
             }
         },
 
+        completed: {
+            tooltip: "Это задание выполнено верно. В списке задач эта задача помечена зеленым."
+        },
+
         tabs: {
             description: "Описание",
             submits: "Отправленные попытки"
@@ -180,7 +191,7 @@ export default {
         output: "Выходные данные:",
         solution: "Код:",
 
-        success: "Ура! Задача верно решена. Набрано баллов: +{score}",
+        success: "Ура! Задача верно решена. Набрано баллов: {score}",
         lastResult: "Тестов пройдено: {passed} из {all}.",
 
         expected: "Ожидалось:\n{result}",
@@ -189,7 +200,36 @@ export default {
 
         language: "Язык: {lang}",
 
-        submit: "Отправить"
+        submit: "Отправить",
+
+        score: "Баллов: {gained} из {all}"
+    },
+
+    restorePassword: {
+        title: "Восстановление пароля",
+
+        succeeded: "Готово. На указанную почту было отправлено письмо со ссылкой подтверждения изменения пароля. Пароль будет изменен после перехода по ссылке.",
+
+        form: {
+            title: "Восстановление пароля",
+            email: {
+                label: "E-mail",
+                placeholder: "Введите адрес электронной почты"
+            },
+            password: {
+                label: "Новый пароль",
+                placeholder: "Введите новый придуманный пароль",
+                description: "Рекомендуем придумать сложный пароль, состоящий из букв разных регистров (a-z, A-Z), цифр (1-9), специальных символов (!@#$%^&*)"
+            },
+            submit: "Восстановить"
+        }
+    },
+
+    leaderboard: {
+        title: "Таблица рекордов",
+
+        name: "Имя участника",
+        score: "Количество баллов"
     },
 
     lang: {

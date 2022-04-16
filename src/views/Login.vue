@@ -47,8 +47,12 @@
                 ></b-skeleton>
             </b-form-group>
 
-            <b-button v-if="!apiCall.isBusy" type="submit" variant="primary">{{$t('login.form.submit')}}</b-button>
-            <b-skeleton v-else type="button"></b-skeleton>
+            <div>
+                <b-button v-if="!apiCall.isBusy" type="submit" variant="primary" class="mr-1">{{$t('login.form.submit')}}</b-button>
+                <b-skeleton v-else type="button"></b-skeleton>
+
+                <b-button v-if="!apiCall.isBusy" to="/lost-password" variant="secondary">{{$t('login.form.restorePassword')}}</b-button>
+            </div>
         </b-form>
     </div>
 </template>

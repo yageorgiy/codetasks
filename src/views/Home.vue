@@ -9,10 +9,11 @@
                 {{$t('home.contents.h1')}}
             </template>
 
-            <template #lead>
+<!--            <template #lead>
                 {{$t('home.contents.p1')}}
-            </template>
+            </template> -->
 
+            <!--
             <hr class="my-4">
 
             <div>
@@ -42,7 +43,7 @@
                     </b-card>
                 </b-card-group>
             </div>
-
+            -->
         </b-jumbotron>
 
     </div>

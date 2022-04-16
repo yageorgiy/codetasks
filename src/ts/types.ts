@@ -2,7 +2,8 @@ import {TranslateResult} from "vue-i18n";
 
 type URL = {
     title: TranslateResult,
-    url: string
+    url: string,
+    check: (url: string) => boolean
 };
 
 type LoginForm = {
@@ -21,6 +22,11 @@ type ProfileForm = {
 type RegisterForm = {
     email: string,
     name: string,
+    password: string
+};
+
+type RestorePasswordForm = {
+    email: string,
     password: string
 };
 
@@ -47,6 +53,7 @@ export {
     LoginForm,
     ProfileForm,
     RegisterForm,
+    RestorePasswordForm,
 
     TaskErrorType,
 

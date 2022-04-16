@@ -9,7 +9,7 @@ export default class Task {
     public id: number;
     // public language: string;
     public sampleCode: string;
-    public completed: boolean;
+    public completed: number;
 
     public code: string;
 
@@ -21,7 +21,7 @@ export default class Task {
     // readonly MAX_DIFFICULTY: number = 5;
     // readonly MIN_DIFFICULTY: number = 1;
 
-    constructor(id: number, title: string, htmlDescription: string, score: number, maxSeconds: number, sampleCode: string, output: string, completed?: boolean) {
+    constructor(id: number, title: string, htmlDescription: string, score: number, maxSeconds: number, sampleCode: string, output: string, completed?: number) {
         this.id = id;
         this.title = title;
         this.description = htmlDescription;
@@ -36,7 +36,7 @@ export default class Task {
         this.output = output;
         this.inputs = [];
 
-        this.completed = completed || false;
+        this.completed = completed || 0;
         this.lastError = {} as TaskErrorType;
     }
 
